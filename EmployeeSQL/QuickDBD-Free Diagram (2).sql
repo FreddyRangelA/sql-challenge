@@ -1,11 +1,5 @@
-﻿-- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
--- Link to schema: https://app.quickdatabasediagrams.com/#/d/wUbWTP
--- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
+﻿
 
--- Modify this code to update the DB schema diagram.
--- To reset the sample schema, replace everything with
--- two dots ('..' - without quotes).
-DROP TABLE IF EXISTS deparments;
 CREATE TABLE "deparments" (
     -- several department can be under one manage, therefore, one to many.
     "dept_no" VARCHAR   NOT NULL,
@@ -113,6 +107,26 @@ SELECT employees.first_name, employees.last_name, employees.sex FROM employees
 WHERE employees.first_name = 'Hercules'
 AND employees.last_name LIKE 'B%';
 
+--6.List all employees in the Sales department.
+SELECT employees.emp_no,employees.last_name, employees.first_name, deparments.dept_name FROM employees
+JOIN dept_emp
+ON employees.emp_no = dept_emp.emp_no
+JOIN deparments
+ON dept_emp.dept_no = deparments.dept_no
+WHERE deparments.dept_name = 'Sales';
 
+--7.
+SELECT employees.emp_no,employees.last_name, employees.first_name, deparments.dept_name FROM employees
+JOIN dept_emp
+ON employees.emp_no = dept_emp.emp_no
+JOIN deparments
+ON dept_emp.dept_no = deparments.dept_no
+WHERE deparments.dept_name = 'Sales'
+OR deparments.dept_name = 'Development';
 
+--8.
+SELECT last_name, COUNT(last_name) AS "frequency"
+FROM employees
+GROUP BY last_name
+ORDER BY frequency DESC;
 
