@@ -1,4 +1,10 @@
-﻿
+﻿-- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
+-- Link to schema: https://app.quickdatabasediagrams.com/#/d/wUbWTP
+-- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
+
+-- Modify this code to update the DB schema diagram.
+-- To reset the sample schema, replace everything with
+-- two dots ('..' - without quotes).
 
 CREATE TABLE "deparments" (
     -- several department can be under one manage, therefore, one to many.
@@ -74,62 +80,4 @@ REFERENCES "salaries" ("emp_no");
 
 ALTER TABLE "employees" ADD CONSTRAINT "fk_employees_emp_title_id" FOREIGN KEY("emp_title_id")
 REFERENCES "titles" ("title_id");
-
---1.List of details for employees.
-SELECT employees.emp_no, employees.last_name, employees.first_name, employees.sex,salaries.salary FROM employees
-JOIN salaries
-ON employees.emp_no=salaries.emp_no;
-
---2.List with details from employees hired in 1986.
-SELECT employees.first_name, employees.last_name, employees.hire_date FROM employees
-WHERE hire_date BETWEEN '1986-01-01'AND '1987-01-01';
-
---3.Linst of manager for each deparment.
-SELECT * FROM deparments;
-SELECT * FROM dept_manager;
-SELECT * FROM employees;
- 
-SELECT deparments.dept_no, deparments.dept_name, dept_manager.emp_no, employees.last_name, employees.first_name FROM deparments
-JOIN dept_manager
-ON deparments.dept_no = dept_manager.dept_no
-JOIN employees
-ON employees.emp_no = dept_manager.emp_no;
-
---4.list the deparment for each employee.
-SELECT employees.emp_no,employees.last_name, employees.first_name,deparments.dept_name FROM employees
-JOIN dept_emp
-on employees.emp_no=dept_emp.emp_no
-JOIN deparments
-on dept_emp.dept_no=deparments.dept_no;
-
---5.List first name, last name, and sex for employees whose first name is "Hercules" and last names begin with "B."
-SELECT employees.first_name, employees.last_name, employees.sex FROM employees
-WHERE employees.first_name = 'Hercules'
-AND employees.last_name LIKE 'B%';
-
---6.List all employees in the Sales department.
-SELECT employees.emp_no,employees.last_name, employees.first_name, deparments.dept_name FROM employees
-JOIN dept_emp
-ON employees.emp_no = dept_emp.emp_no
-JOIN deparments
-ON dept_emp.dept_no = deparments.dept_no
-WHERE deparments.dept_name = 'Sales';
-
---7.
-SELECT employees.emp_no,employees.last_name, employees.first_name, deparments.dept_name FROM employees
-JOIN dept_emp
-ON employees.emp_no = dept_emp.emp_no
-JOIN deparments
-ON dept_emp.dept_no = deparments.dept_no
-WHERE deparments.dept_name = 'Sales'
-OR deparments.dept_name = 'Development';
-
---8.
-SELECT last_name, COUNT(last_name) AS "frequency"
-FROM employees
-GROUP BY last_name
-ORDER BY frequency DESC;
-
-SELECT * FROM employees
-WHERE employees.emp_no='499942';
 
